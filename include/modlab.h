@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cmath>
 #include <bitset>  
+#include <vector>  
 namespace Label {
 
 class Metab{
@@ -344,6 +345,7 @@ class Parray{
    void wstorefl (const char fn1[],int numpar,const double** m);
    void readst();
    std::string fln[22];
+   std::vector<std::string> comm;
    double fstore[22];
 public:
    int i99,i95,i90,i68;

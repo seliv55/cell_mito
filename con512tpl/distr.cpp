@@ -62,7 +62,7 @@ nv.flx[fbp]=bp;
   sum = pBC1q.bhqn(6,nv.frw[bh_qn1],nv.frw[rbh_qn1],kf,nv.frw[rbh_qn2]);
   sum += BC1qn.bhqn(4,nv.frw[bh_qn1],nv.frw[rbh_qn1],kf,nv.frw[rbh_qn2]);
 //		dconc[nhi] -= 2.*sum/buf/vol; 
-  dconc[npsi] += 2.*sum*fc*c3t;
+  dconc[npsi] += sum*fc*c3t;
 		
 //6: binding qh2 on the p-side
   dconc[nqh] += BC1.qphbind(qhpBC1,conc[nqh],nv.frw[qHbnd],nv.frw[rqHbnd],bc15,1)*c3t;
@@ -109,7 +109,7 @@ void Ldistr::tca(double *py,double *pdydt) {
     dconc[nakgm] += v1/vfac;  
 
 // akg to succinate
-  v =nv.flx[ftca] = nv.frw[vtca]*conc[nnad]*conc[nakgm];
+  v =nv.flx[ftca] = nv.frw[akgsuc]*conc[nnad]*conc[nakgm];
   v1=v*tnad;
     dconc[nakgm] -= v1/vfac;   
     dconc[nnad] -= v;  
@@ -179,7 +179,7 @@ void Ldistr::shutl(){ // malate-aspartate shutle
 
 void Ldistr::glycolysis(){
    // glucose to pyruvate
-   double x= nv.frw[vGl];
+   double x= nv.frw[vGl]*(1-conc[npyr])*conc[nnadc];
    double x1=x*tnadc;
      dconc[npyr] += x1;
      dconc[nnadc] -= x;
@@ -190,7 +190,7 @@ void Ldistr::glycolysis(){
       dconc[nlac] += x1;
       dconc[nnadc]  += x;
    // lactate efflux/uptake
-   x= nv.frw[vldh]*(nv.nv[laco] - conc[nlac]);
+   x= nv.frw[vlacdif]*(nv.nv[laco] - conc[nlac]);
       dconc[nlac] += x;
 }
 
@@ -231,7 +231,7 @@ inline double TiK(double Ti,double Glu,double Na, double K){
 }
 
 double Ldistr::jglu0(){ // transport of external glutamate
-   double K1Na=50, K2Na=8.4, Kglu=0.0025, kt0=nv.frw[vglu_oi], kr0=nv.frw[vglu_oi], Tg, Kd;
+   double K1Na=50, K2Na=8.4, Kglu=0.0025, kt0=nv.frw[vglu_tr], kr0=nv.frw[vglu_tr], Tg, Kd;
    Kd = Kglu*(K1Na/nv.nv[Na_o] + 1.)*K2Na/(K2Na + nv.nv[Na_o]);
    Tg=N3ToHG(conc[neo],conc[ngluo],nv.nv[Na_o],nv.nv[k_o]);
    double kt=kt0*exp(2*conc[npsio]*frt/2), kr=kr0*exp(-conc[npsio]*frt/2);
@@ -254,7 +254,7 @@ void Ldistr::atpsyn(double katp){
   double v=katp*conc[nAdp]*conc[npsi];
   dconc[nAdp] -= v;
   dconc[nAtp] += v;
-  dconc[npsi] -= 6.*v*fc;
+  dconc[npsi] -= 8.*v*fc;
 }
 
 void Ldistr::NaKatpase(double katp){
@@ -284,8 +284,8 @@ void Ldistr::c1calc( double *py,double *pdydt) {
 	double kf2 = nv.frw[vn2qn2];
 	double kr2 = nv.frw[vrn2qn2]; 
  double sum = cIq.n2q(kf1,kr1,kf2,kr2,n2red)*c1t;// 0.;// n2 -> Q
- dconc[npsi] += 4.*sum*fc; nv.flx[fc1] = sum;
- dconc[nqh] += cIq.qhdiss1(coreI,conc[nqh],nv.frw[vndis],nv.frw[vrndis])*c1t; // QH2->
+ dconc[npsi] += 8.*sum*fc; nv.flx[fc1] = sum;
+ dconc[nqh] += cIq.qhdiss1(coreI,conc[nqh],nv.frw[vndis],nv.frw[vrndis]) * c1t; // QH2->
  coreI.qbind1(cIq,qq,nv.frw[vpbind],nv.frw[vrpbind]);// QH2<-
 }
 void Ldistr::c2calc( double *py,double *pdydt) {
@@ -304,8 +304,8 @@ void Ldistr::c2calc( double *py,double *pdydt) {
  double sum = cIIq.fsq(kf2,kr2,kf2,kr2,br);
  dconc[nqh] += cIIq.qhdiss1(coreII,conc[nqh],nv.frw[vqdis],nv.frw[vrqdis], cr11)*c2t;
  coreII.qbind1(cIIq,qq,nv.frw[vqbind],nv.frw[vrqbind],cr11);
- dconc[nc2ros]=coreII.fadros(nv.frw[c2ros])*c2t;
- dconc[nc2ros]+=cIIq.fadros(nv.frw[c2ros])*c2t;
+ dconc[nc2ros]=coreII.fadros(nv.frw[vros])*c2t;
+ dconc[nc2ros]+=cIIq.fadros(nv.frw[vros])*c2t;
 // dconc[nc2ros]+=cIIq.sqros(nv.frw[c2ros]);
 }
 
@@ -330,5 +330,6 @@ void Ldistr::distr( double *py,double *pdydt) {
 //  dconc[noaac]=0;
 //  dconc[npyr]=0;
 //  dconc[nnad]=0;
+  dconc[nnadc] = 0;
 }
 

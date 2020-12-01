@@ -57,7 +57,8 @@ void Ldistr::read (string fn) {
 int Ldistr::readexp (int col, string fn) {
    ifstream fi(fn.c_str()); int i=0,j; string aaa;
         getline(fi,aaa); 
-   for(j=0;j<col;j++) fi>>tshift; getline(fi,aaa); 
+   for(j=0;j<col;j++) fi>>tshift;
+   getline(fi,aaa); 
    while(!fi.eof()) { 
      fi>>tex[i]; tex[i] -= tshift; 
       if(tex[i]>=0.){for(j=0;j<col;j++) fi>>ex1[j][i]; i++;}
