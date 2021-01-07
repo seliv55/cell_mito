@@ -58,7 +58,10 @@ void Ldistr::chast(double *py, double tint) {
 //  ifin1= ddisolve(ifin1,5.,py,fkin); setconc(nca,20.);
 //  ifin1= ddisolve(ifin1,5.5,py,fkin); setconc(nca,20.);
 //  double s=nv.setval(vlk,15.); // leak
-//  ifin1= ddisolve(0,1.0,py,fkin);
+//  ifin1= ddisolve(ifin1,2.0,py,fkin);
+//  double a7=nv.setval(ptp, 0.1);	//PTP open 
+//	ifin1= ddisolve(ifin1,3.0,py,fkin);
+//  	nv.setval(ptp, a7);		//PTP close
 //  double a6=nv.setval(qHbnd, 0.0000);//myxothiazol
 //  ifin1= ddisolve(ifin1,3.0,py,fkin);
 //  double a5=nv.setval(vgluout, 0.); // glutamate
@@ -76,7 +79,7 @@ cout <<" qh= "<< conc[nqh]<<" psi= "<< conc[npsi]<<" nad= "<< conc[nnad];
 	cout <<" OAm= "<< conc[noaa]<<"\tOAc= "<< conc[noaac]<<"\n";// 
 	cout <<" cit= "<< conc[ncit]<<"\n";// 
 	cout <<" glu= " << conc[nglu]<<"\tglum= " << conc[nglum]<<"\n"; 
-	cout <<" Aspm= " << conc[naspm]<<"\n"; 
+	cout <<" Aspm= " << conc[naspm]<<"\tAspc= " << conc[naspc]<<"\n"; 
 //  nv.setval(vlk,s); // leak
 //  nv.setval(vgluout, a5); // glutamate
 //  nv.setval(qnbnd, a1);//antimycine

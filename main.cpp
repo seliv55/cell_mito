@@ -80,7 +80,7 @@ double tfac, xi1(0), xi2(0);
           int sys=system(pltt.str().c_str());}
         }
    }
-   aaa=fn.str(); cout<<aaa;
+   aaa=fn.str();// cout<<aaa;
    ofstream ffo("00000"); ffo<<aaa;
    for(int i=0;i<nss;i++) { dif=abs(ss[0][i]-ss[1][nss-i]);
      if(dif>0.1) cout<<i<<" "<<dif<<"; ";
@@ -139,7 +139,7 @@ int main( int argc, char *argv[] ){
      cout<<"time="<<tf/double(CLOCKS_PER_SEC)<<endl;
      ofstream fo("dynamics"); fo<<horse.kkin<<endl; fo.close(); 
   //   fo.open("rot"); fo<<horse.kkin<<endl; fo.close(); 
-     int sys=system("gnuplot -e \"fn1='dynamics'; fn2='dynamics'; fno='kin/dynamics.png'; ax=6.99\" gplt.p");
+     int sys=system("gnuplot -e \"fn1='dynamics'; fn2='dynamics1'; fno='kin/dynamics.png'; ax=6.99\" gplt.p");
      horse.nv.write(istor,xi1,0);
    }
    else {

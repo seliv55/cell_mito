@@ -20,7 +20,7 @@
 19 rqhnds 13.1662      // Qn + QH2 free -> QH2@Qn
 20 vc1c 1.48978        // cyt c1 -> cyt c
 21 bypas 0      // not used
-22 c2ros 7e-05      //👁️COMPLEX 2(pars 22-32), 22: QH@Qp -> O2, FADH -> O2
+22 vros 5e-05      //👁️COMPLEX 2(pars 22-32), 22: QH@Qp -> O2, FADH -> O2
 23 vfadf 0.09315    // suc -> FAD
 24 vfadr 4.1        // FAD -> suc
 25 vb-Q1 25         // 3Fe4S -> cIIQ
@@ -43,32 +43,33 @@
 42 vrQndis 12.7863     // cI + QH2 -> cIQH2
 43 vQpbind 21.625      // cI + Q -> cIQ
 44 vrQpbind 6.28562    // cIQ -> cI + Q
-45 vc1ros 7e-05        // ! not used !
-46 vlk 0.5            //👁️ various
-47 vatsyn 0.001       // ADP -> ATP
-48 vatpase 0.0003      // ATP -> ADP
-49 vGl 0.0005         // glucose input
-50 vldh 0.001         // pyr<-> lac
-51 vlacdif 0.001      // lac out <-> lac in
-52 vcs 0.7            // **Krebs: pyr + oaa -> cit
-53 vtca 5.6704        // cit -> akg
-54 akgsuc 0.1         // akg -> suc
-55 vmdh 1.9           // mal -> oaa
-56 vmdhc 1.101        // **Mal-Asp shutl:* malc -> oaac
-57 vasp_atf 5.1       // oaa + glu -> asp + akg
-58 vasp_atr 0         // oaa + glu <- asp + akg
-59 vmalakg 0.1        // mal - akg exchange
-60 vgluasp 0.2        // glu - asp exchange
-61 vK 0.001           // ** K+ in -> K+ out
-62 vglu_akg 0.0001    // Glu -> akg
-63 vglu_tr 0.001      // Glu out -> Glu 
-64 vgluout 0.001      // spilover
-65 vgluOH 1e-06       // glu - OH exchange
-66 kATPase 0.001      // K/Na ATPase
+45 ptp 0.000		// PTP
+46 vlk 0.01		//👁️ various
+47 vatsyn 0.001	// ADP -> ATP
+48 vatpase 0.000012	// ATP -> ADP
+49 vGl 0.0001		// glucose input
+50 vldh 0.001		// pyr<-> lac
+51 vlacdif 0.0001	// lac out <-> lac in
+52 vcs 0.07		// **Krebs: pyr + oaa -> cit
+53 vtca 0.01 		// cit -> akg
+54 akgsuc 0.01		// akg -> suc
+55 vmdh 0.9		// mal -> oaa
+56 vmdhc 0.9		// **Mal-Asp shutl:* malc -> oaac
+57 vasp_atf 0.45	// oaa + glu -> asp + akg
+58 vasp_atr 0.1	// oaa + glu <- asp + akg
+59 vmalakg 0.1		// mal - akg exchange
+60 vgluasp 0.2		// glu - asp exchange
+61 vK 0.001		// ** K+ in -> K+ out
+62 vglu_akg 0.00001	// Glu -> akg
+63 vglu_tr 0.0005	// Glu out -> Glu 
+64 vgluout 0.001	// spilover
+65 vgluOH 1e-06	// glu - OH exchange
+66 kATPase 0.001	// K/Na ATPase
+66 vperos 0.0000	// K/Na ATPase
 67 rct 1000        // V max factor
-68 tfac 30         // time factor
-69 glu_o 0.5          // **Concentrations** outside glutamate
-70 laco 0             // outside lactate
+68 tfac 97        // time factor
+69 glu_o 0.15          // **Concentrations** outside glutamate
+70 laco 0.3             // outside lactate
 71 k_o 5              // outside K+
 72 Na_o 140           // outside Na+
 22 25 26 27 28 29 30 31 32 34 36 38 39 42 43 45 46 47 -18

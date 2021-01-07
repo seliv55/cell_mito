@@ -164,17 +164,17 @@ void Ldistr::shutl(){ // malate-aspartate shutle
       dconc[nglu] -= x;
       dconc[nglum] += x;
     //aspartat aminotransferase mito: oaa + glum <-> aspm + akg
-    x = nv.frw[vasp_atf]*conc[noaa]*conc[nglum] - nv.frw[vasp_atr]*conc[naspm]*conc[nakgm];
+    x = nv.frw[vasp_atf]*conc[noaa]*conc[nglum];// - nv.frw[vasp_atr]*conc[naspm]*conc[nakgm]
       dconc[noaa] -= x;
       dconc[nglum] -= x;
       dconc[naspm] += x;
       dconc[nakgm] += x;
    //aspartat aminotransferase cytosol: oaac + glu <-> asp + akg
-    x = nv.frw[vasp_atf]*conc[noaac]*conc[nglu]-nv.frw[vasp_atr]*conc[naspc]*conc[nakgc];//
-      dconc[naspc]  += x;
-      dconc[nakgc] += x;
-      dconc[noaac] -= x;
-      dconc[nglu]  -= x;
+    x =nv.frw[vasp_atr]*conc[naspc]*conc[nakgc];// nv.frw[vasp_atf]*conc[noaac]*conc[nglu]-
+      dconc[naspc]  -= x;
+      dconc[nakgc] -= x;
+      dconc[noaac] += x;
+      dconc[nglu]  += x;
 }
 
 void Ldistr::glycolysis(){
@@ -257,8 +257,9 @@ void Ldistr::atpsyn(double katp){
   dconc[npsi] -= 8.*v*fc;
 }
 
-void Ldistr::NaKatpase(double katp){
-   double v=katp*conc[nAtp]*conc[nNa_i]*nv.nv[k_o];
+void Ldistr::NaKatpase(double k){
+   double v=k
+   *conc[nAtp]*conc[nNa_i]*nv.nv[k_o];
    dconc[nAdp] += v;
    dconc[nAtp] -= v;
    dconc[nk_i] += 2*v;
@@ -266,10 +267,33 @@ void Ldistr::NaKatpase(double katp){
    dconc[npsio] += 2*v*fc;
 }
 
-void Ldistr::atpase(double katp){
-   double v=katp*conc[nAtp];
+void Ldistr::atpase(double k){
+   double v=k*conc[nAtp];
    dconc[nAdp] += v;
    dconc[nAtp] -= v;
+}
+
+void Ldistr::peroxidase(double k){
+   double v3=k*nadh*conc[nc3ros];
+   dconc[nc3ros] -= v3;
+   double v2=k*nadh*conc[nc2ros];
+   dconc[nc2ros] -= v2;
+   double v1=k*nadh*conc[nc1ros];
+   dconc[nc1ros] -= v1;
+   dconc[nnad] += v1+v2+v3;
+}
+
+void Ldistr::transition(double kptp){
+   double v=kptp*conc[ncit];
+   dconc[ncit] -= v;
+   v=kptp*conc[nakgm];
+   dconc[nakgm] -= v;
+   v=kptp*conc[noaa];
+   dconc[noaa] -= v;
+   v=kptp*conc[nfum];
+   dconc[nfum] -= v;
+   v=kptp*conc[nsuc];
+   dconc[nsuc] -= v;
 }
 
 void Ldistr::c1calc( double *py,double *pdydt) {
@@ -285,6 +309,8 @@ void Ldistr::c1calc( double *py,double *pdydt) {
 	double kr2 = nv.frw[vrn2qn2]; 
  double sum = cIq.n2q(kf1,kr1,kf2,kr2,n2red)*c1t;// 0.;// n2 -> Q
  dconc[npsi] += 8.*sum*fc; nv.flx[fc1] = sum;
+ fsq = coreI.getfs(fs) + cIq.getfs(fs) + cIq.getsq();
+ dconc[nc1ros] = fsq*nv.frw[vros];
  dconc[nqh] += cIq.qhdiss1(coreI,conc[nqh],nv.frw[vndis],nv.frw[vrndis]) * c1t; // QH2->
  coreI.qbind1(cIq,qq,nv.frw[vpbind],nv.frw[vrpbind]);// QH2<-
 }
@@ -323,10 +349,15 @@ void Ldistr::distr( double *py,double *pdydt) {
   shutl();
   glycolysis();
   atpase(nv.frw[vatpase]);
-//  dconc[nsuc]=0;
+  peroxidase(nv.frw[vperos]);
+//  if(conc[nqh]>2.5) transition(nv.frw[ptp]);
+  dconc[nsuc]=0;
 //  dconc[nglu]=0;
-//  dconc[naspc]=0;
+  dconc[naspc]=0;
 //  dconc[nakgc]=0;
+  dconc[nakgm]=0;
+  dconc[ncit]=0;
+  dconc[nfum]=0;
 //  dconc[noaac]=0;
 //  dconc[npyr]=0;
 //  dconc[nnad]=0;

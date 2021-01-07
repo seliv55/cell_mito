@@ -48,8 +48,9 @@ double fmnred(const double kf,const double kr,const double nadh,const double nad
     if(len-red) { x=kf*pfmn[i]*nadh*isot[ox]-kr*pfmnh[i+2]*isot[red]*nad;
 		disot[red] +=x; disot[ox] -=x; sum +=x; }
     else {x=kf*pfmn[i]*nadh*isot[ox]-kr*pfmnh[7]*e6*nad; disot[ox] -=x; sum +=x; }
-             }
-                  return sum; }
+   }
+ return sum; }
+ 
 double getfs(double pfs[]) {
   double sum=0.; int j=0;
   for(int k=0;k<nq;k++)	
@@ -73,7 +74,7 @@ double n562(const double kf1,const double kr1,double pn5red[],double pn6ar[]) {
  for(int k=0;k<nq;k++)
   for(int j=0;j<(n62-1);j++) 		
    for(int i=1;i<nfmn5;i++) { isub=k*nfmn2+j*nfmn5+i; iprod=isub+7;
-        x=kf1*pn5red[i]*(1.-pn6ar[j])*isot[isub]-kr1*(1.-pn5red[i-1])*pn6ar[j+1]*isot[iprod];
+        x=kf1*pn5red[i]*(1.-pn6ar[j])*isot[isub]-kr1*(1.-pn5red[i-1])* pn6ar[j+1] *isot[iprod];
 		disot[iprod] +=x; disot[isub] -=x; sum +=x;
 		}
 		return sum; }
@@ -405,6 +406,7 @@ public:
        void chast(double *py,double tint);
        double getc3ros(){return pBC1q.percent(3,1);}
        double getc2ros(){return (coreII.getfs() + cIIq.getfs());}
+	void transition(double kptp);
 int ddisolve(int istart,const double tfin, double *py,std::ostringstream& fkin);
 double fiout(double t, std::ostringstream& fi,int ii=1);
 double o2deliv(double pm);
@@ -420,6 +422,7 @@ void NaKatpase(double katp);
 double gluout(double kio,double cglu){ return kio*(cglu-conc[ngluo]);}
 void glycolysis();
 void shutl();
+void peroxidase(double k);
 	void tout(int, int&, std::ofstream&);
 	void priout();
         int setny();
@@ -442,7 +445,7 @@ void shutl();
 		conc[np] = a; return b;}
        void setarrays();
        double getros(){return ros;}
-    Ldistr():pBC1q(256), qhpBC1(64), BC1qn(64), BC1(15),coreI(15), cIq(48), c1t(0.204), coreII(11), cIIq(36), c2t(0.4), c3t(0.444), qt(4.1), hi(5.4e-05), ho(0.000114), vol(100.), buf(1000000.), fc(500.), frt(0.039), tan(1.), tnad(17.0), tnadc(17.0){}
+    Ldistr():pBC1q(256), qhpBC1(64), BC1qn(64), BC1(15),coreI(15), cIq(48), c1t(0.204), coreII(11), cIIq(36), c2t(0.4), c3t(0.444), qt(4.1), hi(5.4e-05), ho(0.000114), vol(100.), buf(1000000.), fc(500.), frt(0.039), tan(20.), tnad(20.0), tnadc(17.0){}
      ~Ldistr(void) {}
 };
 }

@@ -42,6 +42,7 @@ void Ldistr::read (string fn) {
 	fi >>aa>> conc[naspm];
 	fi >>aa>> conc[naspc];
 	fi >>aa>> conc[nca];
+	fi >>aa>> conc[nc1ros];
 	fi >>aa>> conc[nc2ros];
 	fi >>aa>> conc[nc3ros];
 	fi >>aa>> conc[nk_i];
@@ -96,6 +97,7 @@ void Ldistr::write (string fn) const {
 	fi <<"naspm= "<< conc[naspm] <<"\n";
 	fi <<"naspc= "<< conc[naspc] <<"\n";
 	fi <<"nca= "  << conc[nca]    <<"\n";
+	fi <<"nc1ros= "<< conc[nc2ros]<<"\n";
 	fi <<"nc2ros= "<< conc[nc2ros]<<"\n";
 	fi <<"nc3ros= "<< conc[nc3ros]<<"\n";
 	fi <<"nk_i= "  << conc[nk_i]  <<"\n";
@@ -223,8 +225,8 @@ sp3 = pBC1q.percent(3,1);// +qhpBC1.percent(3,1)
    double qsc2= cIIq.getsq();
 //   ros=sp3+fsq+sq1;
          double ai=3.-log10(hi);
-if(!ii) fi<<"Time(min)"<<" prod"<<" sp3"<<" fsc2" <<" qsc2" <<" fum"<<" Bypass"<< " qh" << " psi" << " fc1" <<" ROS_c2" << " ROS_c3"<<" fc2"<<" [Ca²⁺]μM" <<" Glu_m"<<" OAAm"<<" psio"<<" Na_i"<<" OAAc"<<" Glu_o"<<" Glu_i"<<" ATP"<<'\n';
-fi <<tmod<<" " << nv.flx[fc1c]*tfac/60./0.4 <<" "<< sp3 <<" "<< fsc2 <<" " << qsc2 <<" " << conc[nfum] <<" "<< nv.flx[fbp]*tfac/60./0.4 <<" " <<  (conc[nqh]) << " " << conc[npsi] << " " << nv.flx[fc1]*tfac/60./0.4 << " " << conc[nc2ros] <<" "<< conc[nc3ros]<<" "<<nv.flx[fc2]*tfac/60./0.4<<" "<< conc[nca]<<" "<< conc[nglum]<<" "<< conc[noaa]<<" "<< conc[npsio]<<" "<< conc[nNa_i]<<" "<< conc[noaac]<<" "<< conc[ngluo]<<" "<< conc[nglu]<<" "<< conc[nAtp]<<'\n';
+if(!ii) fi<<"Time(min)"<<" prod"<<" sp3"<<" fsc2" <<" qsc2" <<" fsq1"<<" fum"<<" Bypass"<< " qh" << " psi" << " fc1" <<" ROS_c2" << " ROS_c3"<<" fc2"<<" [Ca²⁺]μM" <<" Glu_m"<<" OAAm"<<" psio"<<" Na_i"<<" OAAc"<<" Glu_o"<<" Glu_i"<<" ATP"<<'\n';
+fi <<tmod<<" " << nv.flx[fc1c]*tfac/4. <<" "<< sp3 <<" "<< fsc2 <<" " << qsc2 <<" "<< fsq <<" " << conc[nfum] <<" "<< nv.flx[fbp]*tfac <<" " <<  (conc[nqh]/qt) << " " << conc[npsi] << " " << conc[nc1ros] << " " << conc[nc2ros] <<" "<< conc[nc3ros]<<" "<<nv.flx[fc2]*tfac<<" "<< conc[nca]<<" "<< conc[nglum]<<" "<< conc[noaa]<<" "<< conc[npsio]<<" "<< conc[nNa_i]<<" "<< conc[noaac]<<" "<< conc[ngluo]<<" "<< conc[nglu]<<" "<< conc[nAtp]/tan<<'\n';
      return conc[npsi];
 }
 
