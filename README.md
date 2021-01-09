@@ -68,7 +68,7 @@ cd [Mitodyn directory]
 - After performing a single simulation, Mitodyn saves the time course of variables of interest (mitochondrial membrane potential, Δψ), combinations of variables (e.g., sum of potentially ROS producing redox states) and functions of variables (oxygen consumption rate, VO<sub>2</sub>) in a text file “dynamics”.
 - If GNUplot is installed, it plots the saved data executing the GNUplot script “gplt.p”, presented in the above mentioned directory. The plot is saved in the file “./kin/dynamics.png”.
 - After running Mitodyn in the continuation mode, it saves the steady state values of the same variables and their combinations in the file “00000”, plots the dependence of selected steady state data executing the GNUplot script “gparplt.p”, and saves the plot “cont.png”.
-- Below we show some examples of data analysis using single simulations and continuation with parameters presented in the file “1” and initial values from file “i1”. We do not present here examples of data fitting, but the instructions for using this mode are indicated in the file “Readme.md”.
+- Below show some examples of data analysis are shown. using single simulations and continuation with parameters presented in the file “1” and initial values from file “i1”.
 
 ## Publications
 
