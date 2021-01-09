@@ -70,6 +70,8 @@ cd [Mitodyn directory]
 - After running Mitodyn in the continuation mode, it saves the steady state values of the same variables and their combinations in the file “00000”, plots the dependence of selected steady state data executing the GNUplot script “gparplt.p”, and saves the plot “cont.png”.
 - Below show some examples of data analysis are shown. using single simulations and continuation with parameters presented in the file “1” and initial values from file “i1”.
 
+![screenshot](basic_var.png)
+
 ## Publications
 
 - Selivanov VA, Votyakova TV, Zeak JA, Trucco M, Roca J, Cascante M.
