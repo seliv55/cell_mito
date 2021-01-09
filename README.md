@@ -48,9 +48,8 @@ make clean && make
 - The repository has a script “mito.sh” that can be used to run Mitodyn.
 - At runtime Mitodyn reads the input data: a file with initial values of the state variables and a file with the values of model parameters. Examples of input data, file with  the initial values of the state variables (“i1”) and the values of model parameters (“1”) are present in the repository.
 - the paths to input files can be specified as default values in the script “mito.sh”, or as options in command line:
-```
-cd [Mitodyn directory]
-./mito.sh -i i1 -p 1
+``` cd [Mitodyn directory]
+./mito.sh -i i1 -p 1 
 ```
 - different input files can be used, but they should have the same format exemplified in "1" and "i1".
 - Taking into consideration the large number of state variables (>300) and parameters (~70), it is recommended to start the first analysis using the presented example files.
