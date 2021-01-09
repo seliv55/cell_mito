@@ -48,15 +48,17 @@ make clean && make
 - The repository has a script “mito.sh” that can be used to run Mitodyn.
 - At runtime Mitodyn reads the input data: a file with initial values of the state variables and a file with the values of model parameters. Examples of input data, file with  the initial values of the state variables (“i1”) and the values of model parameters (“1”) are present in the repository.
 - the paths to input files can be specified as default values in the script “mito.sh”, or as options in command line:
-``` cd [Mitodyn directory]
-./mito.sh -i i1 -p 1 
+``` 
+cd [Mitodyn directory]
+./mito.sh -i i1 -p 1
 ```
 - different input files can be used, but they should have the same format exemplified in "1" and "i1".
 - Taking into consideration the large number of state variables (>300) and parameters (~70), it is recommended to start the first analysis using the presented example files.
 - Mitodyn can run in various modes:
   * If mode = "0", Mitodyn makes a single simulation and stops;
   * If mode = "r", it also makes a single simulation but assuming inhibition of complex I by rotenone;
-  * mode = "cont" produces a series of simulations incrementing a parameter in some interval starting from the point achieved in the previous simulation (shortened word "continuation"). The file "cont" specifies the number of points in the series, the number of a chosen parameter in the array of parameters, the starting value of the parameter, and the interval's size. This file existing in the root directory contains an example of such specification.
+  * mode = "cont" produces a series of simulations incrementing a parameter in some interval starting from the point achieved in the previous simulation (shortened word "continuation").
+    * In this mode Mitodyn reads an additional file "cont" that specifies the number of points in the series, the number of a chosen parameter in the array of parameters, the starting value of the parameter, and the interval's size. This file existing in the root directory contains an example of such specification.
   * mode = "rc" is the same as "cont" but assuming inhibition of complex I by rotenone.
 - the disirable mode should be specified as default in "mito.sh", or as options in command line:
 ```
