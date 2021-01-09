@@ -9,7 +9,7 @@ Glu_m=ca+1; OAAm=Glu_m+1; psio=OAAm+1; Na_i=psio+1; OAAc=Na_i+1; Glu_o=OAAc+1; G
 set xtics 1.0 nomirror;
 set ytics nomirror;
 set border 3;
-set key vert at graph 0.5,0.7 left Right samplen 1;
+set key vert at graph 0.5,0.9 left Right samplen 1;
 
 #set t pngcairo enhanced dashed font "arial,10" size 700,2.5*68;
 #set output fno;

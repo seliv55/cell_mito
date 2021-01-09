@@ -21,7 +21,7 @@
 20 vc1c 1.48978         // cyt c1 -> cyt c
 21 bypas 0       // not used
 22 vros 5e-05       //👁️COMPLEX 2(pars 22-32), 22: QH@Qp -> O2, FADH -> O2
-23 vfadf 0.09315     // suc -> FAD
+23 vfadf 10.0931     // suc -> FAD
 24 vfadr 4.1         // FAD -> suc
 25 vb-Q1 25          // 3Fe4S -> cIIQ
 26 vrb-Q1 0.5        // cIIQ -> 3Fe4S
@@ -73,18 +73,18 @@
 72 k_o 5               // outside K+
 73 Na_o 140            // outside Na+
 22 25 26 27 28 29 30 31 32 34 36 38 39 42 43 45 46 47 -18
-3801893 1 1
+3669354 1 1
 0 fsdh 0 0
 1 fsm 0 0
-2 fsuoa 0.104921 0
+2 fsuoa 0.104822 0
 3 fme 0 0
 4 fpyrt 0 0
-5 fcs 3.31764e-10 0
-6 ftca 9.87536e-08 0
+5 fcs 3.2366e-10 0
+6 ftca 9.85829e-08 0
 7 fuoa 0 0
 8 fatps 0 0
-9 flk 4.71204e-09 0
+9 flk 4.70595e-09 0
 10 fatpa 0 0
-11 fc1 0.0106723 0
-12 0.00505971 0.0727136 0
+11 fc1 0.0106539 0
+12 0.00505971 0.0714363 0
 13 0 0 0

@@ -1,7 +1,7 @@
 #set size 0.65,0.65;
 set t pngcairo enhanced dashed font "arial,10" size 600,61.8*3;
 #set t svg enhanced dashed font "arial,10" size 600,61.8*3;
-set output "cont.pmg";
+set output "cont.png";
 set multiplot layout 1,2
 set style line 1 lt 1 lw 1.5 lc rgb "#3465a4"
 set style line 2 lt 1 lw 1.5 lc rgb "#f57900"

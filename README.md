@@ -68,12 +68,16 @@ cd [Mitodyn directory]
 - After performing a single simulation, Mitodyn saves the time course of variables of interest (mitochondrial membrane potential, Δψ), combinations of variables (e.g., sum of potentially ROS producing redox states) and functions of variables (oxygen consumption rate, VO<sub>2</sub>) in a text file “dynamics”.
 - If GNUplot is installed, it plots the saved data executing the GNUplot script “gplt.p”, presented in the above mentioned directory. The plot is saved in the file “./kin/dynamics.png”.
 - After running Mitodyn in the continuation mode, it saves the steady state values of the same variables and their combinations in the file “00000”, plots the dependence of selected steady state data executing the GNUplot script “gparplt.p”, and saves the plot “cont.png”.
-- Below show an example of two single simulations are shown.
+- Here is an example of two single simulations:
 ```
-./mito.sh -m cont
+./mito.sh
 ```
 ![two simulations](basic_var.png)
 *Dynamics of some determinants of energy metabolism calculated by Mitodyn. Time course of Δψ (A), oxygen consumption (B), ubiquinol (QH2) content (C),  and ATP (D) are calculated for some basal state when ATP synthesis compensates its consumption (orange curves labeled as “work”) and ten-times decreased ATPase activity (blue curves labeled as “ROS”. The corresponding values of parameters and initial values of state variables are listed in the files “1” and “i1” respectively*
+
+- Here is an example of two branches of stable steady states found by running Mitodyn in continuation mode:
+![two branches](two_branches.png)
+*Two branches of stable steady-states revealed by running Mitodyn in “cont” mode. The steady states for semiquinone at Qo site of complex III (A) and oxygen consumption (B) as functions of the parameter that reflects ATP demand. The stable steady-states branch obtained by simulations gradually decreasing the parameter is shown in orange. It is terminated by a limit point (LP), and further decrease of the parameter switches the system to the blue branch of stable steady-states. With subsequent increasing the parameter, the system remains in the blue branch of stable steady-states. Mitodyn does not locate the branch of unstable steady states situated between the orange and blue branches and connected with the orange branch in the limit point.*
 
 ## Publications
 
