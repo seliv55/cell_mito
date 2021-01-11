@@ -46,7 +46,12 @@ make clean && make
 ## Working with the program
 
 - The repository has a script “mito.sh” that can be used to run Mitodyn.
-- At runtime Mitodyn reads the input data: a file with initial values of the state variables and a file with the values of model parameters. Examples of input data, file with  the initial values of the state variables (“i1”) and the values of model parameters (“1”) are present in the repository.
+- At runtime Mitodyn reads the input data: a file with initial values of the state variables and a file with the values of model parameters.
+- Example of input file with  the initial values of the state variables (“i1”) is presented in the repository. 
+  * In this file the initial values for the amounts of the respiratory chain complexes redox states are represented by a single column of numbers. First, 144 states for complex III with two bound ubiquinones (Q), at Qo and Qi sites. Then 15 states complex III core (no bound Q), 48 states for complex III with Q bound at Qo site and 48 states for complex III with Q bound at Qi site. Then 15 states for complex I core and 48 states for complex I with bound Q. Then 11 states for complex II core and 36 states for complex II with bound Q. Then 30 values for free QH2, mitochondrial and cellular membrane potentials, and metabolites with nicknames indicated on the left from the numbers.
+  * An initial analysis can be started using the existing initial values file "i1". After simulations with changed parameters Mitodyn saves final values of redox states in the file "i0" in the same format as "i1". This output file "i0" can be ised for the next simulations as initial values file.
+- Example of the file with the values of model parameters (an example is “1”) is also presented in the repository.
+  * In this file each row indicates data for one parameter
 - the paths to input files can be specified as default values in the script “mito.sh”, or as options in command line:
 ``` 
 cd [Mitodyn directory]
@@ -80,7 +85,10 @@ cd [Mitodyn directory]
 ![two branches](two_branches.png)
 *Two branches of stable steady-states revealed by running Mitodyn in “cont” mode. The steady states for semiquinone at Qo site of complex III (A) and oxygen consumption (B) as functions of the parameter that reflects ATP demand. The stable steady-states branch obtained by simulations gradually decreasing the parameter is shown in orange. It is terminated by a limit point (LP), and further decrease of the parameter switches the system to the blue branch of stable steady-states. With subsequent increasing the parameter, the system remains in the blue branch of stable steady-states. Mitodyn does not locate the branch of unstable steady states situated between the orange and blue branches and connected with the orange branch in the limit point.*
 
+
 ## Publications
+
+- Vitaly A. Selivanov, Olga A. Zagubnaya, Carles Foguet, Yaroslav R. Nartsissov, Marta Cascante. MITODYN: An open source software for quantitative modeling mitochondrial and cellular energy metabolic flux dynamics in health and disease.  Methods Mol Biol. submitted
 
 - Selivanov VA, Votyakova TV, Zeak JA, Trucco M, Roca J, Cascante M.
 Bistability of mitochondrial respiration underlies paradoxical reactive oxygen

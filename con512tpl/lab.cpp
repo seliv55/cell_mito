@@ -63,7 +63,7 @@ int Ldistr::readexp (int col, string fn) {
    while(!fi.eof()) { 
      fi>>tex[i]; tex[i] -= tshift; 
       if(tex[i]>=0.){for(j=0;j<col;j++) fi>>ex1[j][i]; i++;}
-        getline(fi,aaa); } 
+        getline(fi,aaa); }
       fi.close(); return iter= i - 2;}
 
 void Ldistr::write (string fn) const {
