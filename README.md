@@ -47,11 +47,12 @@ make clean && make
 
 - The repository has a script “mito.sh” that can be used to run Mitodyn.
 - At runtime Mitodyn reads the input data: a file with initial values of the state variables and a file with the values of model parameters.
-- Example of input file with  the initial values of the state variables (“i1”) is presented in the repository. 
+- An example of input file with  the initial values of the state variables (“i1”) is presented in the repository. 
   * In this file the initial values for the amounts of the respiratory chain complexes redox states are represented by a single column of numbers. First, 144 states for complex III with two bound ubiquinones (Q), at Qo and Qi sites. Then 15 states complex III core (no bound Q), 48 states for complex III with Q bound at Qo site and 48 states for complex III with Q bound at Qi site. Then 15 states for complex I core and 48 states for complex I with bound Q. Then 11 states for complex II core and 36 states for complex II with bound Q. Then 30 values for free QH2, mitochondrial and cellular membrane potentials, and metabolites with nicknames indicated on the left from the numbers.
   * An initial analysis can be started using the existing initial values file "i1". After simulations with changed parameters Mitodyn saves final values of redox states in the file "i0" in the same format as "i1". This output file "i0" can be ised for the next simulations as initial values file.
-- Example of the file with the values of model parameters (an example is “1”) is also presented in the repository.
-  * In this file each row indicates data for one parameter
+- An example of the file with the values of model parameters (“1”) is also presented in the repository.
+  * In this file each row indicates data for one parameter. Any line starts from an integer representing a parameter number. Then a parameter nickname, then a parameter value, which is a rate constant of respective electro transport reaction. Then after "//" a short explanation of respective electron transport or metabolic reaction is presented.
+  * The parameters are presented in the following order: first 20 lines are for complex III parameters, then up to line 32 complex II parameters are presented, then up to line 46 complex II parameters are shown, various metabolic reaction rate constants occupy rows up lo line 67, and finaly the constant outside concentrations are shown.
 - the paths to input files can be specified as default values in the script “mito.sh”, or as options in command line:
 ``` 
 cd [Mitodyn directory]
