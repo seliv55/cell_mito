@@ -46,7 +46,7 @@
 45 ptp 0 		// PTP
 46 vlk 0.01 		//👁️ various
 47 vatsyn 0.001 	// ADP -> ATP
-48 vatpase 1.2e-05 	// ATP -> ADP
+48 vatpase 0.0002 	// ATP -> ADP
 49 vGl 0.0001 		// glucose input
 50 vldh 0.001 		// pyr<-> lac
 51 vlacdif 0.0001 	// lac out <-> lac in
@@ -57,34 +57,34 @@
 56 vmdhc 0.9 		// **Mal-Asp shutl:* malc -> oaac
 57 vasp_atf 0.45 	// oaa + glu -> asp + akg
 58 vasp_atr 0.1 	// oaa + glu <- asp + akg
-59 vmalakg 0.1 		// mal - akg exchange
+59 vmalakg 0.2 		// mal - akg exchange
 60 vgluasp 0.2 		// glu - asp exchange
 61 vK 0.001 		// ** K+ in -> K+ out
 62 vglu_akg 1e-05 	// Glu -> akg
 63 vglu_tr 0.0005 	// Glu out -> Glu 
 64 vgluout 0.001 	// spilover
-65 vgluOH 1e-06 	// glu - OH exchange
+65 vgluOH 1e-05 	// glu - OH exchange
 66 kATPase 0.001 	// K/Na ATPase
 67 vperos 0 	// K/Na ATPase
-68 rct 1000         // V max factor
-69 tfac 97         // time factor
-70 glu_o 0.15           // **Concentrations** outside glutamate
-71 laco 0.3              // outside lactate
-72 k_o 5               // outside K+
-73 Na_o 140            // outside Na+
+68 rct 1000 		// V max factor
+69 tfac 97 		// time factor
+70 glu_o 0.25 		// **Concentrations** outside glutamate
+71 laco 0.3 		// outside lactate
+72 k_o 5 		// outside K+
+73 Na_o 140 		// outside Na+
 22 25 26 27 28 29 30 31 32 34 36 38 39 42 43 45 46 47 -18
-3669354 1 1
+2070059 1 1
 0 fsdh 0 0
 1 fsm 0 0
-2 fsuoa 0.104822 0
+2 fsuoa 7.18788 0
 3 fme 0 0
 4 fpyrt 0 0
-5 fcs 3.2366e-10 0
-6 ftca 9.85829e-08 0
+5 fcs 0.0119414 0
+6 ftca 0.00508543 0
 7 fuoa 0 0
 8 fatps 0 0
-9 flk 4.70595e-09 0
+9 flk 0.00934405 0
 10 fatpa 0 0
-11 fc1 0.0106539 0
-12 0.00505971 0.0714363 0
+11 fc1 2.42647 0
+12 0.00505971 0.956186 0
 13 0 0 0

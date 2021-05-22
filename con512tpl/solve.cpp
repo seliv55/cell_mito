@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <sstream>
 #include <vector>
+#include <algorithm> 
 #include "nr.h"
 #include "StiffIntegratorT.h"
 #include "NonStiffIntegratorT.h"
@@ -70,7 +71,7 @@ void Ldistr::chast(double *py, double tint) {
 //  ifin1=ddisolve(ifin1,4.0,py,fkin);
 //  double a6=nv.setval(qHbnd, 0.0000);//myxothiazol
 	ifin1= ddisolve(ifin1,tint,py,fkin);
-	fiout(tint,fkont,1); 
+//	fiout(tint,fkont,1); 
 cout <<" qh= "<< conc[nqh]<<" psi= "<< conc[npsi]<<" nad= "<< conc[nnad]; 
 	cout <<" nadc= "<< conc[nnadc]<<"\n";// 
 	cout <<" pyr= "<< conc[npyr]<<"\tlac= "<< conc[nlac]<<"\n";// 
@@ -84,8 +85,154 @@ cout <<" qh= "<< conc[nqh]<<" psi= "<< conc[npsi]<<" nad= "<< conc[nnad];
 //  nv.setval(vgluout, a5); // glutamate
 //  nv.setval(qnbnd, a1);//antimycine
 //  nv.setval(qHbnd, a6);//myxothiazol
-  kont = fkont.str();
-  kkin=fkin.str();}
+//	fkin.str(std::string());
+//	fkont.str(std::string());
+//	ifin1= ddisolve(0,tint,py,fkin);
+	fiout(tint,fkont,1); 
+	write("ii");
+	kont = fkont.str();
+  kkin=fkin.str();
+  }
+
+inline void zerowsmal(Vec_DP& w, double cond, int n) {
+	double wmax=0.0; int i;
+	for (i=0;i<n;i++) if (w[i] > wmax) wmax=w[i];
+//            cout<<"wmax=" << wmax<< endl;
+	double wmin=wmax*cond;
+// zero the "small" singular values
+	for(i=0;i<n;i++) if(w[i] < wmin) w[i]=0.0;
+}
+
+void first(double *y,int ipar,double pint,double step){
+	Vec_DP w(NN+1), c(NN+1), dx(NN+1);
+	double x, sum(0), dp=pint*step, dy[NN+1], *rhs=&c[0], *df[NN+1];
+	Mat_DP a(NN+1,NN+1), u(NN+1,NN+1),v(NN+1,NN+1);
+	int i,j;
+	init_ydot(y,ipar,dp,dy,rhs,NN);
+	for(i=0;i<=NN;i++) {
+	  df[i]=&u[i][0]; u[i][NN]=rhs[i]/dp; rhs[i] *= -1;}
+	Jacobian(dp, y, df);
+	for(i=0;i<=NN;i++)  u[NN][i]=dy[i]; rhs[NN]=0.000001;
+// copy u
+	for(i=0;i<=NN;i++)
+	   for(j=0;j<=NN;j++) a[i][j]=u[i][j];
+// SVD of u
+	NR::svdcmp(u,w,v);
+	zerowsmal(w, 1e-12, NN+1);
+	  
+// next vector y
+	NR::svbksb(u,w,v,c,dx);
+	double wmax=0.0;
+	for ( i=0;i<NN;i++) {y[i]+=dx[i];
+	  if(fabs(dx[i])>wmax) wmax=fabs(dx[i]);}
+	cout << "--- dy max is: "<<wmax << endl;
+	horse.nv.setval(ipar,y[NN]);
+	
+// next vector dy
+	for(i=0;i<NN;i++) rhs[i] = 0;
+	 rhs[NN]=1;
+	NR::svbksb(u,w,v,c,dx);
+	wmax=0.0;
+	for ( i=0;i<NN;i++) if(fabs(dx[i])>wmax) wmax=fabs(dx[i]);
+	cout << "---  max of dy: "<<wmax << endl;
+	
+//	  horse.distr(y, rhs);
+	ydot(y,ipar,dp,dy,rhs,NN);
+//	jsvd(y, w, u, v, a,1e-11,NN);
+//	  horse.distr(y, rhs);
+//	  double cmax=0;
+//	  for (int i=0;i<NN;i++) {
+//	    rhs[i] *= (-1.);
+//	    if(fabs(c[i])>cmax) cmax=fabs(c[i]);
+//	    if(cmax>1e4) {cout<<"max rhs** "<<cmax << endl; throw "error";}
+//	  } cout<<cmax<<endl;
+//	neuton(y,c, w, u, v, a,NN);
+	
+	sum=0;
+	for(i=0;i<=NN;i++) {sum += dx[i]*dx[i];}
+	sum=sqrt(sum);
+	for(i=0;i<=NN;i++) a[NN][i] = dx[i]/sum;
+	horse.distr(y, rhs); 
+	Jacobian(dp,y,df);
+	for (i=0;i<=NN;i++)
+	   for (j=0;j<=NN;j++) a[i][j]= u[i][j];
+	NR::svdcmp(u,w,v);
+	zerowsmal(w, 1e-11, NN);
+// a new vector a[NN][i]
+	for(i=0;i<=NN;i++)
+	   for(j=0;j<=NN;j++) u[i][j]=a[i][j];
+}
+void init_ydot(double *y,int ipar,double dp,double *ydot,double *c1,const int n){
+	Vec_DP c(n), w(n);
+	Mat_DP u(n,n),v(n,n);
+	int i,j;
+	double x, sum(0), y0[n];
+	correct(y,c, w, u, v,n);
+	for (i=0;i<n;i++) y0[i]= y[i]; //{c0[i]=(c1[i]-c0[i])/dp;}
+	double p0=horse.nv.nv[ipar];
+// last column c1/dp, rhs= -c1 :
+	horse.nv.setval(ipar,p0+dp);
+	horse.distr(y, c1); 
+// last row ydot;
+	correct(y,c, w, u, v,n);
+	for(i=0;i<n;i++) {ydot[i]=(y[i]-y0[i])/dp; sum += ydot[i]*ydot[i];}
+	sum +=1.; sum=sqrt(sum);
+	for(i=0;i<n;i++) ydot[i] /= sum;
+	ydot[n]= 1./sum; //-dp/sum-dp;
+// back to initial point
+//	horse.nv.setval(ipar,p0);
+//	for (i=0;i<n;i++) y[i]= y0[i];
+}
+void ydot(double *y,int ipar,double dp,double *ydot,double *c1,const int n){
+	Vec_DP c(n), w(n);
+	Mat_DP u(n,n),v(n,n);
+	int i,j;
+	double x, sum(0), y0[n];
+	correct(y,c, w, u, v,n);
+}
+void correct(double *y,Vec_DP& c,Vec_DP& w,Mat_DP& u,Mat_DP& v,const int n){
+	double *rhs=&c[0],cmax; int i,k;
+	Mat_DP a(n,n);
+	jsvd(y, w, u, v, a,1e-11,n);
+	for(k=0;k<5;k++){
+	  horse.distr(y, rhs);
+	  cmax=0;
+//	  jsvd(y, w, u, v,n);
+	  for (int i=0;i<n;i++) {
+	    rhs[i] *= (-1.);
+	    if(fabs(c[i])>cmax) cmax=fabs(c[i]);
+	    if(cmax>1e4) {cout<<"max rhs** "<<cmax << endl; throw "error";}
+	  }
+	  cout << "*max rhs** "<<cmax << endl;
+	  if(neuton(y,c, w, u, v, a,n)<1e-7) break;
+	}
+}
+void jsvd(double *y,Vec_DP& w,Mat_DP& u,Mat_DP& v,Mat_DP& a, double cond,const int n){
+	double x, *df[n];
+	int i,j;
+        for(i=0;i<n;i++) df[i]=&u[i][0];
+	Jacobian(x,y,df);
+	for (i=0;i<n;i++)
+	   for (j=0;j<n;j++) a[i][j]= u[i][j];
+	NR::svdcmp(u,w,v);
+	zerowsmal(w, cond, n);
+}
+double neuton(double *y,Vec_DP& c,Vec_DP& w,Mat_DP& u,Mat_DP& v,Mat_DP& a,const int n){
+//	cout << fixed << setprecision(6);
+	Vec_DP dx(n),c1(n),dx1(n); int i,j;
+	NR::svbksb(u,w,v,c,dx);
+	double wmax=0.0; 
+	for ( i=0;i<n;i++){ c1[i] = 0.;
+	   for ( j=0;j<n;j++) c1[i] += a[i][j]*dx[j];
+	   c1[i] -= c[i];
+	   }
+	jsvd(y, w, u, v, a,1e-12,n);
+	NR::svbksb(u,w,v,c1,dx1);
+	wmax=0.0;
+	for ( i=0;i<n;i++) { dx[i] -= dx1[i]; y[i]+=dx[i];
+	  if(fabs(dx[i])>wmax) wmax=fabs(dx[i]);}
+	cout << " max of dx is: "<<wmax << endl;
+return wmax; }
 
 void isT::Function(double x, double *y, double *f){
 	horse.distr(y, f);
@@ -102,13 +249,13 @@ void Jacobian(double x, double *y, double **dfdy){
 	double dy,aa;
 		horse.distr(y, dydx0);
 	for ( i=0;i<NN;i++) { aa=y[i];
-	   if(aa>0.0001) dy=aa*0.01; else dy=0.000001;
+	   dy=aa*0.001; if(dy>1.) dy=1.;
 		y[i] += dy;
 		horse.distr(y, dydx1);
 		y[i] = aa;
-		for ( j=0;j<NN;j++) {
-		dfdy[j][i] = (dydx1[j] - dydx0[j]) / dy;
-		}
+		for ( j=0;j<NN;j++) 
+		  if(dy>1e-12) dfdy[j][i] = (dydx1[j] - dydx0[j]) / dy;
+		  else dfdy[j][i] = 0.0;
 	}
 }
 

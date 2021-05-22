@@ -112,7 +112,7 @@
      id="namedview1922"
      showgrid="false"
      inkscape:zoom="1"
-     inkscape:cx="300.49505"
+     inkscape:cx="117.99505"
      inkscape:cy="92.5"
      inkscape:window-x="0"
      inkscape:window-y="27"
@@ -1242,36 +1242,4 @@
      cy="135"
      rx="3.9603961"
      ry="3.2178218" />
-  <path
-     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3.9000001;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
-     d="m 157.92079,104.30693 c 0,24.25743 0,24.25743 0,24.25743"
-     id="path2071"
-     inkscape:connector-curvature="0" />
-  <path
-     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3.9000001;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-5)"
-     d="m 456.43565,34.262182 c 0,24.25743 0,24.25743 0,24.25743"
-     id="path2071-5"
-     inkscape:connector-curvature="0" />
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:16px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
-     x="150.38614"
-     y="99.514854"
-     id="text2910"><tspan
-       sodipodi:role="line"
-       id="tspan2908"
-       x="150.38614"
-       y="99.514854"
-       style="font-size:14.66666667px">LP</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:18.66666603px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-     x="448.57486"
-     y="31.804035"
-     id="text2910-6"><tspan
-       sodipodi:role="line"
-       id="tspan2908-2"
-       x="448.57486"
-       y="31.804035"
-       style="font-size:14.66666667px">LP</tspan></text>
 </svg>

@@ -48,18 +48,26 @@ double tfac, xi1(0), xi2(0);
     return horse.getc3ros();}
     
  double cont(double *py,double tint,char c){
-   double pmin, pint;
+   double pmin, pint, left,right;
    int np, chpar; string aaa;
    ifstream fpar("cont");
    fpar>>aaa>>chpar>>aaa>>np>>aaa>>pmin>>aaa>>pint;
+   left=std::min(pmin,pmin+pint); right=std::max(pmin,pmin+pint);
    const int nss(np);
    double a,dif,fact(1.0),f1(1.02),ss[2][nss];
    double dp=pint/(float)nss;
    stringstream fn; 
    ofstream fo;
-   cout<<"par["<<chpar<<"]="<<horse.nv.nv[chpar]<<'\n'; 
    int j=0;
    double sum(0.),ss1(0.),ss2(0.);
+   horse.nv.setval(chpar,pmin+pint*1e-5);
+   cout<<"par["<<chpar<<"]="<<horse.nv.nv[chpar]<<'\n'; 
+   solve(py,tint);
+//   while((horse.nv.getval(chpar)<right)&&(horse.nv.getval(chpar)>left)){
+//   first(py,chpar,pint,0.03);
+//   cout<<"+++ par="<<horse.nv.getval(chpar)<<" ψ="<<horse.getconc(npsi)<<" +++\n";
+//   }
+//return 0.;
    for(int k=0;k<2;k++){
       cout<<"nss="<<nss<<endl;
       for(int ii=0;ii<(nss+1);ii++){
@@ -129,7 +137,7 @@ int main( int argc, char *argv[] ){
    horse.setisot(&ystart[0]); 
    horse.readexp(2,(string)argv[1]);//read experiment
    horse.read((string)argv[2]);//"i0"); // read init values
-   horse.nv.read(argv[3],1);//0-pyr+mal; 1-suc
+   horse.nv.read(argv[3],1);// read parameters
   //   horse.glufl(); return 0;
    string s(argv[4]);
    tfac=horse.nv.nv[ntmax];
@@ -139,7 +147,7 @@ int main( int argc, char *argv[] ){
      cout<<"time="<<tf/double(CLOCKS_PER_SEC)<<endl;
      ofstream fo("dynamics"); fo<<horse.kkin<<endl; fo.close(); 
   //   fo.open("rot"); fo<<horse.kkin<<endl; fo.close(); 
-     int sys=system("gnuplot -e \"fn1='dynamics'; fn2='dynamics1'; fno='kin/dynamics.png'; ax=6.99\" gplt.p");
+     int sys=system("gnuplot -e \"fn1='dynamics'; fn2='dynamics'; fno='kin/dynamics.png'; ax=6.99\" gplt.p");
      horse.nv.write(istor,xi1,0);
    }
    else {

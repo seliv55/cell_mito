@@ -137,44 +137,44 @@ void Ldistr::shutl(){ // malate-aspartate shutle
     // MDH in cytosol nadhc + oaac <-> nadc + fumc
    double x= nv.frw[vmdhc]*(nadhc*conc[noaac]);//-conc[nnadc]*conc[nfumc]
    double x1=x*tnadc;
-      dconc[noaac] -= x1;
-      dconc[nnadc] += x;
-      dconc[nfumc] += x1;
+	dconc[noaac] -= x1;
+	dconc[nnadc] += x;
+	dconc[nfumc] += x1;
 //Fumarate oxidation and MDH reaction in mito
    x = nv.frw[vmdh]*(conc[nnad]*conc[nfum]);//-nadh*conc[noaa]
-   x1=x*tnad;
-      dconc[nnad] -= x; 
-      dconc[nfum] -= x1; 
-      dconc[noaa] += x1; 
-    // transport: malate/akg antiport
+	x1=x*tnad;
+	dconc[nnad] -= x; 
+	dconc[nfum] -= x1; 
+	dconc[noaa] += x1; 
+// transport: malate/akg antiport
     x= nv.frw[vmalakg]*(conc[nfumc]*conc[nakgm]-conc[nfum]*conc[nakgc]);
-      dconc[nfumc] -= x;
-      dconc[nakgm] -= x;
-      dconc[nfum] += x;
-      dconc[nakgc] += x;
-    // transport: aspartate/glutamate antiport
+	dconc[nfumc] -= x;
+	dconc[nakgm] -= x;
+	dconc[nfum] += x;
+	dconc[nakgc] += x;
+// transport: aspartate/glutamate antiport
     x= nv.frw[vgluasp]*(conc[nglu]*conc[naspm] - conc[nglum]*conc[naspc]);
-      dconc[nglu] -= x;
-      dconc[naspm] -= x;
-      dconc[nglum] += x;
-      dconc[naspc] += x;
-      dconc[npsi] -= 2.*x*fc;
-     // transport: glutamate-/OH-
+	dconc[nglu] -= x;
+	dconc[naspm] -= x;
+	dconc[nglum] += x;
+	dconc[naspc] += x;
+	dconc[npsi] -= 2.*x*fc;
+// transport: glutamate-/OH-
      x= nv.frw[vgluOH]*(conc[nglu]-conc[nglum]);
-      dconc[nglu] -= x;
-      dconc[nglum] += x;
-    //aspartat aminotransferase mito: oaa + glum <-> aspm + akg
+	dconc[nglu] -= x;
+	dconc[nglum] += x;
+//aspartat aminotransferase mito: oaa + glum <-> aspm + akg
     x = nv.frw[vasp_atf]*conc[noaa]*conc[nglum];// - nv.frw[vasp_atr]*conc[naspm]*conc[nakgm]
-      dconc[noaa] -= x;
-      dconc[nglum] -= x;
-      dconc[naspm] += x;
-      dconc[nakgm] += x;
-   //aspartat aminotransferase cytosol: oaac + glu <-> asp + akg
+	dconc[noaa] -= x;
+	dconc[nglum] -= x;
+	dconc[naspm] += x;
+	dconc[nakgm] += x;
+//aspartat aminotransferase cytosol: oaac + glu <-> asp + akg
     x =nv.frw[vasp_atr]*conc[naspc]*conc[nakgc];// nv.frw[vasp_atf]*conc[noaac]*conc[nglu]-
-      dconc[naspc]  -= x;
-      dconc[nakgc] -= x;
-      dconc[noaac] += x;
-      dconc[nglu]  += x;
+	dconc[naspc]  -= x;
+	dconc[nakgc] -= x;
+	dconc[noaac] += x;
+	dconc[nglu]  += x;
 }
 
 void Ldistr::glycolysis(){
@@ -311,8 +311,8 @@ void Ldistr::c1calc( double *py,double *pdydt) {
  dconc[npsi] += 8.*sum*fc; nv.flx[fc1] = sum;
  fsq = coreI.getfs(fs) + cIq.getfs(fs) + cIq.getsq();
  dconc[nc1ros] = fsq*nv.frw[vros];
- dconc[nqh] += cIq.qhdiss1(coreI,conc[nqh],nv.frw[vndis],nv.frw[vrndis]) * c1t; // QH2->
- coreI.qbind1(cIq,qq,nv.frw[vpbind],nv.frw[vrpbind]);// QH2<-
+ dconc[nqh] += cIq.qhdiss1(coreI,conc[nqh],nv.frw[vndis],nv.frw[vrndis])*c1t;
+ coreI.qbind1(cIq,qq,nv.frw[vpbind],nv.frw[vrpbind]);
 }
 void Ldistr::c2calc( double *py,double *pdydt) {
 //COMPLEX II (q-q-fs-fs-fs-fad-fad)
@@ -351,15 +351,15 @@ void Ldistr::distr( double *py,double *pdydt) {
   atpase(nv.frw[vatpase]);
   peroxidase(nv.frw[vperos]);
 //  if(conc[nqh]>2.5) transition(nv.frw[ptp]);
-  dconc[nsuc]=0;
+//  dconc[nsuc]=0;
 //  dconc[nglu]=0;
   dconc[naspc]=0;
 //  dconc[nakgc]=0;
-  dconc[nakgm]=0;
-  dconc[ncit]=0;
-  dconc[nfum]=0;
+//  dconc[nakgm]=0;
+//  dconc[ncit]=0;
+//  dconc[nfum]=0;
 //  dconc[noaac]=0;
-//  dconc[npyr]=0;
+  dconc[npyr]=0;
 //  dconc[nnad]=0;
   dconc[nnadc] = 0;
 }

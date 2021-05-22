@@ -225,8 +225,8 @@ sp3 = pBC1q.percent(3,1);// +qhpBC1.percent(3,1)
    double qsc2= cIIq.getsq();
 //   ros=sp3+fsq+sq1;
          double ai=3.-log10(hi);
-if(!ii) fi<<"Time(min)"<<" prod"<<" sp3"<<" fsc2" <<" qsc2" <<" fsq1"<<" fum"<<" Bypass"<< " qh" << " psi" << " fc1" <<" ROS_c2" << " ROS_c3"<<" fc2"<<" [Ca²⁺]μM" <<" Glu_m"<<" OAAm"<<" psio"<<" Na_i"<<" OAAc"<<" Glu_o"<<" Glu_i"<<" ATP"<<'\n';
-fi <<tmod<<" " << nv.flx[fc1c]*tfac/4. <<" "<< sp3 <<" "<< fsc2 <<" " << qsc2 <<" "<< fsq <<" " << conc[nfum] <<" "<< nv.flx[fbp]*tfac <<" " <<  (conc[nqh]/qt) << " " << conc[npsi] << " " << conc[nc1ros] << " " << conc[nc2ros] <<" "<< conc[nc3ros]<<" "<<nv.flx[fc2]*tfac<<" "<< conc[nca]<<" "<< conc[nglum]<<" "<< conc[noaa]<<" "<< conc[npsio]<<" "<< conc[nNa_i]<<" "<< conc[noaac]<<" "<< conc[ngluo]<<" "<< conc[nglu]<<" "<< conc[nAtp]/tan<<'\n';
+if(!ii) fi<<"Time(min)"<<" prod"<<" sp3"<<" fsc2" <<" qsc2" <<" fsq1"<<" fum"<<" Bypass"<< " qh" << " psi" << " fc1" <<" ROS_c2" << " ROS_c3"<<" fc2"<<" [Ca²⁺]μM" <<" Glu_m"<<" OAAm"<<" psio"<<" Na_i"<<" OAAc"<<" Glu_o"<<" Glu_i"<<" Asp_m"<<" Asp_c"<<" ATP"<<'\n';
+fi <<tmod<<" " << nv.flx[fc1c]*tfac/4. <<" "<< sp3 <<" "<< fsc2 <<" " << qsc2 <<" "<< fsq <<" " << conc[nfum] <<" "<< nv.flx[fbp]*tfac <<" " <<  (conc[nqh]/qt) << " " << conc[npsi] << " " << conc[nc1ros] << " " << conc[nc2ros] <<" "<< conc[nc3ros]<<" "<<nv.flx[fc2]*tfac<<" "<< conc[nca]<<" "<< conc[nglum]<<" "<< conc[noaa]<<" "<< conc[npsio]<<" "<< conc[nNa_i]<<" "<< conc[noaac]<<" "<< conc[ngluo]<<" "<< conc[nglu]<<" "<< conc[naspm]<<" "<< conc[naspc]<<" "<< conc[nAtp]/tan<<'\n';
      return conc[npsi];
 }
 
