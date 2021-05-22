@@ -62,7 +62,7 @@ nv.flx[fbp]=bp;
   sum = pBC1q.bhqn(6,nv.frw[bh_qn1],nv.frw[rbh_qn1],kf,nv.frw[rbh_qn2]);
   sum += BC1qn.bhqn(4,nv.frw[bh_qn1],nv.frw[rbh_qn1],kf,nv.frw[rbh_qn2]);
 //		dconc[nhi] -= 2.*sum/buf/vol; 
-  dconc[npsi] += sum*fc*c3t;
+  dconc[npsi] += 2.*sum*fc*c3t;
 		
 //6: binding qh2 on the p-side
   dconc[nqh] += BC1.qphbind(qhpBC1,conc[nqh],nv.frw[qHbnd],nv.frw[rqHbnd],bc15,1)*c3t;
@@ -109,14 +109,14 @@ void Ldistr::tca(double *py,double *pdydt) {
     dconc[nakgm] += v1/vfac;  
 
 // akg to succinate
-  v =nv.flx[ftca] = nv.frw[akgsuc]*conc[nnad]*conc[nakgm];
+  v =nv.flx[ftca] = nv.frw[vtca]*conc[nnad]*conc[nakgm];
   v1=v*tnad;
     dconc[nakgm] -= v1/vfac;   
     dconc[nnad] -= v;  
     dconc[nsuc] += v1/vfac;  
 
 // glutamate to akg:
-  v = nv.frw[vglu_akg]*conc[nglum];
+  v = nv.frw[vglu_suc]*conc[nglum];
     dconc[nakgm] += v/vfac;/**/
     dconc[nglum] -= v/vfac;  
 //leak
@@ -137,49 +137,49 @@ void Ldistr::shutl(){ // malate-aspartate shutle
     // MDH in cytosol nadhc + oaac <-> nadc + fumc
    double x= nv.frw[vmdhc]*(nadhc*conc[noaac]);//-conc[nnadc]*conc[nfumc]
    double x1=x*tnadc;
-	dconc[noaac] -= x1;
-	dconc[nnadc] += x;
-	dconc[nfumc] += x1;
+      dconc[noaac] -= x1;
+      dconc[nnadc] += x;
+      dconc[nfumc] += x1;
 //Fumarate oxidation and MDH reaction in mito
    x = nv.frw[vmdh]*(conc[nnad]*conc[nfum]);//-nadh*conc[noaa]
-	x1=x*tnad;
-	dconc[nnad] -= x; 
-	dconc[nfum] -= x1; 
-	dconc[noaa] += x1; 
-// transport: malate/akg antiport
+   x1=x*tnad;
+      dconc[nnad] -= x; 
+      dconc[nfum] -= x1; 
+      dconc[noaa] += x1; 
+    // transport: malate/akg antiport
     x= nv.frw[vmalakg]*(conc[nfumc]*conc[nakgm]-conc[nfum]*conc[nakgc]);
-	dconc[nfumc] -= x;
-	dconc[nakgm] -= x;
-	dconc[nfum] += x;
-	dconc[nakgc] += x;
-// transport: aspartate/glutamate antiport
+      dconc[nfumc] -= x;
+      dconc[nakgm] -= x;
+      dconc[nfum] += x;
+      dconc[nakgc] += x;
+    // transport: aspartate/glutamate antiport
     x= nv.frw[vgluasp]*(conc[nglu]*conc[naspm] - conc[nglum]*conc[naspc]);
-	dconc[nglu] -= x;
-	dconc[naspm] -= x;
-	dconc[nglum] += x;
-	dconc[naspc] += x;
-	dconc[npsi] -= 2.*x*fc;
-// transport: glutamate-/OH-
+      dconc[nglu] -= x;
+      dconc[naspm] -= x;
+      dconc[nglum] += x;
+      dconc[naspc] += x;
+      dconc[npsi] -= 2.*x*fc;
+     // transport: glutamate-/OH-
      x= nv.frw[vgluOH]*(conc[nglu]-conc[nglum]);
-	dconc[nglu] -= x;
-	dconc[nglum] += x;
-//aspartat aminotransferase mito: oaa + glum <-> aspm + akg
-    x = nv.frw[vasp_atf]*conc[noaa]*conc[nglum];// - nv.frw[vasp_atr]*conc[naspm]*conc[nakgm]
-	dconc[noaa] -= x;
-	dconc[nglum] -= x;
-	dconc[naspm] += x;
-	dconc[nakgm] += x;
-//aspartat aminotransferase cytosol: oaac + glu <-> asp + akg
-    x =nv.frw[vasp_atr]*conc[naspc]*conc[nakgc];// nv.frw[vasp_atf]*conc[noaac]*conc[nglu]-
-	dconc[naspc]  -= x;
-	dconc[nakgc] -= x;
-	dconc[noaac] += x;
-	dconc[nglu]  += x;
+      dconc[nglu] -= x;
+      dconc[nglum] += x;
+    //aspartat aminotransferase mito: oaa + glum <-> aspm + akg
+    x = nv.frw[vasp_atf]*conc[noaa]*conc[nglum] - nv.frw[vasp_atr]*conc[naspm]*conc[nakgm];
+      dconc[noaa] -= x;
+      dconc[nglum] -= x;
+      dconc[naspm] += x;
+      dconc[nakgm] += x;
+   //aspartat aminotransferase cytosol: oaac + glu <-> asp + akg
+    x = nv.frw[vasp_atf]*conc[noaac]*conc[nglu]-nv.frw[vasp_atr]*conc[naspc]*conc[nakgc];//
+      dconc[naspc]  += x;
+      dconc[nakgc] += x;
+      dconc[noaac] -= x;
+      dconc[nglu]  -= x;
 }
 
 void Ldistr::glycolysis(){
    // glucose to pyruvate
-   double x= nv.frw[vGl]*(1-conc[npyr])*conc[nnadc];
+   double x= nv.frw[vGl];
    double x1=x*tnadc;
      dconc[npyr] += x1;
      dconc[nnadc] -= x;
@@ -190,7 +190,7 @@ void Ldistr::glycolysis(){
       dconc[nlac] += x1;
       dconc[nnadc]  += x;
    // lactate efflux/uptake
-   x= nv.frw[vlacdif]*(nv.nv[laco] - conc[nlac]);
+   x= nv.frw[vldh]*(nv.nv[laco] - conc[nlac]);
       dconc[nlac] += x;
 }
 
@@ -231,7 +231,7 @@ inline double TiK(double Ti,double Glu,double Na, double K){
 }
 
 double Ldistr::jglu0(){ // transport of external glutamate
-   double K1Na=50, K2Na=8.4, Kglu=0.0025, kt0=nv.frw[vglu_tr], kr0=nv.frw[vglu_tr], Tg, Kd;
+   double K1Na=50, K2Na=8.4, Kglu=0.0025, kt0=nv.frw[vglu_oi], kr0=nv.frw[vglu_oi], Tg, Kd;
    Kd = Kglu*(K1Na/nv.nv[Na_o] + 1.)*K2Na/(K2Na + nv.nv[Na_o]);
    Tg=N3ToHG(conc[neo],conc[ngluo],nv.nv[Na_o],nv.nv[k_o]);
    double kt=kt0*exp(2*conc[npsio]*frt/2), kr=kr0*exp(-conc[npsio]*frt/2);
@@ -254,12 +254,11 @@ void Ldistr::atpsyn(double katp){
   double v=katp*conc[nAdp]*conc[npsi];
   dconc[nAdp] -= v;
   dconc[nAtp] += v;
-  dconc[npsi] -= 8.*v*fc;
+  dconc[npsi] -= 6.*v*fc;
 }
 
-void Ldistr::NaKatpase(double k){
-   double v=k
-   *conc[nAtp]*conc[nNa_i]*nv.nv[k_o];
+void Ldistr::NaKatpase(double katp){
+   double v=katp*conc[nAtp]*conc[nNa_i]*nv.nv[k_o];
    dconc[nAdp] += v;
    dconc[nAtp] -= v;
    dconc[nk_i] += 2*v;
@@ -267,33 +266,10 @@ void Ldistr::NaKatpase(double k){
    dconc[npsio] += 2*v*fc;
 }
 
-void Ldistr::atpase(double k){
-   double v=k*conc[nAtp];
+void Ldistr::atpase(double katp){
+   double v=katp*conc[nAtp];
    dconc[nAdp] += v;
    dconc[nAtp] -= v;
-}
-
-void Ldistr::peroxidase(double k){
-   double v3=k*nadh*conc[nc3ros];
-   dconc[nc3ros] -= v3;
-   double v2=k*nadh*conc[nc2ros];
-   dconc[nc2ros] -= v2;
-   double v1=k*nadh*conc[nc1ros];
-   dconc[nc1ros] -= v1;
-   dconc[nnad] += v1+v2+v3;
-}
-
-void Ldistr::transition(double kptp){
-   double v=kptp*conc[ncit];
-   dconc[ncit] -= v;
-   v=kptp*conc[nakgm];
-   dconc[nakgm] -= v;
-   v=kptp*conc[noaa];
-   dconc[noaa] -= v;
-   v=kptp*conc[nfum];
-   dconc[nfum] -= v;
-   v=kptp*conc[nsuc];
-   dconc[nsuc] -= v;
 }
 
 void Ldistr::c1calc( double *py,double *pdydt) {
@@ -308,11 +284,9 @@ void Ldistr::c1calc( double *py,double *pdydt) {
 	double kf2 = nv.frw[vn2qn2];
 	double kr2 = nv.frw[vrn2qn2]; 
  double sum = cIq.n2q(kf1,kr1,kf2,kr2,n2red)*c1t;// 0.;// n2 -> Q
- dconc[npsi] += 8.*sum*fc; nv.flx[fc1] = sum;
- fsq = coreI.getfs(fs) + cIq.getfs(fs) + cIq.getsq();
- dconc[nc1ros] = fsq*nv.frw[vros];
- dconc[nqh] += cIq.qhdiss1(coreI,conc[nqh],nv.frw[vndis],nv.frw[vrndis])*c1t;
- coreI.qbind1(cIq,qq,nv.frw[vpbind],nv.frw[vrpbind]);
+ dconc[npsi] += 4.*sum*fc; nv.flx[fc1] = sum;
+ dconc[nqh] += cIq.qhdiss1(coreI,conc[nqh],nv.frw[vndis],nv.frw[vrndis])*c1t; // QH2->
+ coreI.qbind1(cIq,qq,nv.frw[vpbind],nv.frw[vrpbind]);// QH2<-
 }
 void Ldistr::c2calc( double *py,double *pdydt) {
 //COMPLEX II (q-q-fs-fs-fs-fad-fad)
@@ -330,8 +304,8 @@ void Ldistr::c2calc( double *py,double *pdydt) {
  double sum = cIIq.fsq(kf2,kr2,kf2,kr2,br);
  dconc[nqh] += cIIq.qhdiss1(coreII,conc[nqh],nv.frw[vqdis],nv.frw[vrqdis], cr11)*c2t;
  coreII.qbind1(cIIq,qq,nv.frw[vqbind],nv.frw[vrqbind],cr11);
- dconc[nc2ros]=coreII.fadros(nv.frw[vros])*c2t;
- dconc[nc2ros]+=cIIq.fadros(nv.frw[vros])*c2t;
+ dconc[nc2ros]=coreII.fadros(nv.frw[c2ros])*c2t;
+ dconc[nc2ros]+=cIIq.fadros(nv.frw[c2ros])*c2t;
 // dconc[nc2ros]+=cIIq.sqros(nv.frw[c2ros]);
 }
 
@@ -343,24 +317,18 @@ void Ldistr::distr( double *py,double *pdydt) {
   c2calc(py,pdydt);
   ions(nk_i,vK);
   jglu0();
-  dconc[ngluo]+=gluout(nv.frw[vgluout],nv.nv[glu_o]);
+//  dconc[ngluo]+=gluout(nv.frw[vgluout],nv.nv[glu_o]);
   atpsyn(nv.frw[vatsyn]);
   NaKatpase(nv.frw[katase]);
   shutl();
   glycolysis();
   atpase(nv.frw[vatpase]);
-  peroxidase(nv.frw[vperos]);
-//  if(conc[nqh]>2.5) transition(nv.frw[ptp]);
 //  dconc[nsuc]=0;
 //  dconc[nglu]=0;
-  dconc[naspc]=0;
+//  dconc[naspc]=0;
 //  dconc[nakgc]=0;
-//  dconc[nakgm]=0;
-//  dconc[ncit]=0;
-//  dconc[nfum]=0;
 //  dconc[noaac]=0;
-  dconc[npyr]=0;
+//  dconc[npyr]=0;
 //  dconc[nnad]=0;
-  dconc[nnadc] = 0;
 }
 
