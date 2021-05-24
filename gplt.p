@@ -1,8 +1,8 @@
-#set t pngcairo enhanced dashed font "arial,10" size 600,400;
-set t svg enhanced dashed font "arial,11" size 600,400;
+set t pngcairo enhanced dashed font "arial,10" size 600,400;
+#set t svg enhanced dashed font "arial,11" size 600,400;
 set xlabel "Time (s)" offset 0,0.7;
 set xrange [0 to ax]
-set output 'kin/suc.svg';
+set output 'kin/suc.png';
 set multiplot layout 2,2;
 set style line 1 lt 1 lw 1.5 lc rgb "#3465a4"
 set style line 2 lt 1 lw 1.5 lc rgb "#f57900"
